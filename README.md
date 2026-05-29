@@ -1,4 +1,4 @@
-# ZCHSound Reproducibility Package
+# MWAF-Net: Multi-Wavelet Attention Fusion Network for Robust Heart Sound Classificatio
 
 This repository is a review-stage reproducibility package for heart sound
 classification experiments on the ZCHSound dataset.
