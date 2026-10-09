@@ -1,148 +1,150 @@
-# MWAF-Net: Multi-Wavelet Attention Fusion Network for Robust Heart Sound Classificatio
+# MWAF-Net: Multi-Wavelet Attention Fusion Network for Pediatric Heart Sound Classification
 
-This repository is a review-stage reproducibility package for heart sound
-classification experiments on the ZCHSound dataset.
+This public source package includes local-data preprocessing, reproducible data
+partitioning, and the optimized six-branch main MWAF-Net with training, evaluation,
+and WAV inference entry points. It supports the three ZCHSound tasks and the
+CirCor Outcome and Murmur tasks.
 
-The full model implementation and paper-specific experimental code are
-temporarily withheld because the manuscript is still under peer review. This
-public package provides the dataset preparation protocol, environment
-requirements, split strategy, experiment settings, and release plan. The full
-training code will be added after acceptance or can be shared with reviewers
-through a private/restricted channel if required by the journal or conference.
+The repository contains **software, configuration, and usage documentation only**.
+Download the datasets separately. Raw audio, clinical labels, prepared arrays,
+recording manifests, trained weights, logs, predictions, unpublished scores,
+comparison models, component variants, and experiment/figure-generation packages
+are not distributed here.
 
-## What Is Included
-
-- `scripts/prepare_dataset.py`: build reproducible train/validation/test `.npy`
-  files from raw ZCHSound wav files and label CSV files.
-- `configs/experiment_settings.yaml`: documented experiment settings used for
-  clean binary, noisy binary, and clean multi-class tasks.
-- `requirements.txt`: Python dependencies for data preparation, training, and
-  analysis.
-- `docs/DATASET.md`: dataset source, expected local structure, labels, and
-  split protocol.
-- `docs/REPRODUCIBILITY.md`: recommended release strategy while the paper is
-  under review.
-
-## What Is Temporarily Withheld
-
-The following items are intentionally not included in this review-stage public
-package:
-
-- the proposed model source code;
-- ablation-study implementation details;
-- trained checkpoints and logs;
-- paper figure source data generated from unpublished experiments;
-- scripts that reveal the main innovation before peer review is complete.
-
-This keeps the project useful for reproducibility review while protecting the
-novel contribution until the manuscript decision is finalized.
-
-## Dataset Source
-
-The experiments use the ZCHSound heart sound dataset. The raw data are expected
-to be obtained from the dataset owner or the release channel specified in the
-paper. This repository does not redistribute raw audio files or clinical labels.
-
-Expected local structure:
+## Package contents
 
 ```text
-project_root/
-  raw_data/
-    clean Heartsound Data/
-    Noise Heartsound Data Details/
-    Clean_label_used.csv
-    Noise_label_used.csv
-    Clean_label_multi_class.csv
+MWAF-Net-main/
+  mwaf/             main network, loss, preprocessing, training utilities
+  scripts/          prepare_dataset.py, train.py, evaluate.py, predict.py
+  configs/          five task configurations
+  docs/             dataset and implementation notes
+  tests/            source-only tests using temporary synthetic data
+  requirements.txt
+  .gitignore
 ```
-
-See `docs/DATASET.md` for details.
 
 ## Environment
 
-Recommended environment:
-
-- Python 3.10 or 3.11
-- PyTorch 2.x
-- CUDA-enabled GPU for full training, CPU is sufficient for dataset preparation
-- Windows or Linux
-
-Install dependencies:
+Python 3.10-3.12 is supported. Create an isolated environment, then install
+PyTorch for your hardware using the [official PyTorch version guide](https://docs.pytorch.org/get-started/previous-versions/).
+For example, the archived PyTorch 2.3.0 CPU build is installed with:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install torch==2.3.0 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -r requirements.txt
 ```
 
-For GPU training, install the PyTorch build that matches your CUDA version from
-the official PyTorch installation page before installing the remaining
-dependencies.
+For CUDA 12.1, use the `https://download.pytorch.org/whl/cu121` index instead.
+The validation environment used Python 3.12 and PyTorch 2.3.0 CPU. NumPy is
+limited to version 1.x for compatibility with that archived PyTorch build.
+No torchvision, plotting library, or statistical-analysis package is required.
 
-## Data Preparation
+## Download data
 
-Run from the project root:
+- ZCHSound: [dataset project website](http://zchsound.ncrcch.org.cn/) and
+  [dataset repository/download entry](https://github.com/WeiJieOvO/ZCHSound-Dataset).
+- CirCor: [PhysioNet, version 1.0.3](https://physionet.org/content/circor-heart-sound/1.0.3/).
+
+See [dataset notes](docs/DATASET.md) for directory structure and label formats.
+Keep the downloaded data and all generated files outside Git or under the ignored
+local directories. This export contains no dataset files or example patient records.
+
+## Prepare and split data
+
+Run from this repository's root. The original ZCHSound task names remain available:
 
 ```bash
-python scripts/prepare_dataset.py --task clean_binary --project_root .
-python scripts/prepare_dataset.py --task noise_binary --project_root .
-python scripts/prepare_dataset.py --task clean_multiclass --project_root .
+python scripts/prepare_dataset.py --task clean_binary --project_root . --seed 42
+python scripts/prepare_dataset.py --task noise_binary --project_root . --seed 42
+python scripts/prepare_dataset.py --task clean_multiclass --project_root . --seed 42
+python scripts/prepare_dataset.py --task circor_outcome --project_root . --seed 42
+python scripts/prepare_dataset.py --task circor_murmur --project_root . --seed 42
 ```
 
-Default outputs:
+Use `--audio_dir`, `--label_file`, and `--output_dir` to select your own local
+paths. Quote paths containing spaces. Outputs default to
+`dataset/<task>_segment/`; use a separate output directory for each split seed.
+Outputs are created locally and are not part of this repository.
 
-```text
-dataset/
-  clean_binary_segment/
-  noise_binary_segment/
-  clean_multiclass_segment/
+Partitioning precedes segmentation. ZCHSound acquisition files represent distinct
+participants in this study; an optional CSV `subject_id` column can group related
+recordings explicitly. CirCor groups recording sites and visits using `Patient ID`
+and `Additional ID` from its official CSV. Byte-identical WAV files are also kept
+in one partition. Group overlap is rejected.
+
+The usual partition is a two-stage, class-stratified 80/10/10 group split.
+For very small classes, the script uses a deterministic per-class allocation with
+at least one group in each partition and reports that the proportions are approximate.
+Audio is resampled to 1,000 Hz with librosa and cut into complete, non-overlapping
+1.5-second segments. Incomplete tails are discarded.
+
+The archived preparation step applies training-split global mean/std; model input
+then uses per-segment mean/std normalization. `--no_global_normalize` omits only
+the global step. No validation/test statistics are fitted for normalization.
+
+The local `split_manifest.csv` and `dataset_metadata.json` record assignments and
+input hashes. Replay the same partition with:
+
+```bash
+python scripts/prepare_dataset.py --task clean_binary --audio_dir "path/to/wavs" --label_file "path/to/labels.csv" --split_manifest "local/split_manifest.csv" --output_dir "dataset/replayed_split"
 ```
 
-Each output directory contains:
+## Train the main network
 
-- `train_data.npy`, `train_labels.npy`
-- `val_data.npy`, `val_labels.npy`
-- `test_data.npy`, `test_labels.npy`
-- `dataset_metadata.json`
+```bash
+python scripts/train.py --config configs/clean_binary.yaml --data_dir dataset/clean_binary_segment --output_dir runs/clean_binary_seed42 --seed 42
+```
 
-## Dataset Split
+For another task, replace both the configuration and prepared-data paths with the
+matching task name. `--device cpu` forces CPU execution; the default selects CUDA
+when available. All configuration paths and output paths are portable local paths.
 
-The split is performed at file level, not segment level, to avoid leakage
-between train/validation/test sets.
+The provided defaults use Adam, learning rate 0.001, batch size 16, weighted
+training sampling, the archived augmentation/Mixup and smoothed focal-style loss,
+warmup and cosine scheduling, gradient accumulation, and validation-UAR early
+stopping. They are runnable public defaults rather than the complete set of
+task-specific paper experiment configurations. No published score is promised by
+this source-only release.
 
-- train: 80%
-- validation: 10%
-- test: 10%
-- random seed: 42 by default
-- stratified by class label
-- target sampling rate: 1000 Hz
-- segment length: 1.5 seconds
-- normalization: train-set mean/std applied to all splits
+`best.pt`, the effective configuration, and training history are produced **only
+when the user runs training**. They are ignored by Git and absent from this export.
+Choose a new output directory for each run; existing outputs are not overwritten.
 
-## Experiment Settings
+## Test or predict with your own checkpoint
 
-The documented settings are in `configs/experiment_settings.yaml`.
+```bash
+python scripts/evaluate.py --checkpoint runs/clean_binary_seed42/best.pt --data_dir dataset/clean_binary_segment
+python scripts/predict.py --checkpoint runs/clean_binary_seed42/best.pt --audio "path/to/recording.wav" --output_csv "runs/local_predictions.csv"
+```
 
-Main settings:
+Evaluation reports the single model's test metrics to the console. Prediction
+saves per-segment probabilities to the specified local CSV. The displayed mean
+segment probabilities are a simple aggregation, not a clinically validated
+patient diagnosis. No pretrained model or saved prediction is shipped.
 
-- optimizer: Adam
-- learning rate: 0.001
-- weight decay: 1e-6
-- epochs: 200
-- batch size: 16
-- early stopping patience: 50
-- gradient clipping: 0.5
-- mixup alpha: 0.2
-- primary metrics: accuracy, UAR, weighted F1, confusion matrix
+## Model behavior and scope
 
-## Suggested Review-Stage Workflow
+The six branches use Morlet, db4, sym4, coif4, Haar, and Mexican Hat templates,
+32/64/128 channels, learned global branch weights, feature refinement, and a
+256-to-128 classifier. Output classes are configurable as 2, 3, or 5.
 
-1. Keep this repository public with data preparation and settings.
-2. Keep the proposed model code in a private repository or private branch.
-3. Create a fixed private archive for reviewers if required.
-4. After acceptance, merge the withheld implementation into this repository and
-   tag the release used by the paper.
-5. Optionally archive the final code and metadata on Zenodo or another DOI
-   service.
+**Archived initialization behavior is retained intentionally**: the global
+`Conv1d` initializer overwrites the coefficients generated during wavelet setup.
+Scale/shift parameters are stored by the original layer but do not regenerate
+kernels during forward passes. See [implementation notes](docs/IMPLEMENTATION.md).
+This update does not silently repair or reinterpret the archived experiment model.
 
-## Citation
+Comparison models, component-removal variants, template controls, calibration,
+task-specific ensembles, noise-study suites, statistics, and paper figures remain
+outside this public package. The code is the single main-network workflow.
 
-Citation information will be added after the manuscript is accepted.
+## Software tests
 
+```bash
+python -m unittest discover -s tests -v
+```
+
+Tests create temporary synthetic recordings and arrays, exercise partition leakage
+checks, and validate main-network gradients and checkpoint reload. They do not
+use clinical data or reproduce manuscript experiments.
