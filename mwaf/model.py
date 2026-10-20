@@ -1,11 +1,3 @@
-"""Manuscript-aligned six-branch MWAF-Net.
-
-This implementation updates the public architecture to the current manuscript.
-Its software checks use synthetic inputs; the revised model has not been trained
-to reproduce the historical result tables. Older architecture checkpoints are
-not interchangeable with this model and must not be loaded non-strictly.
-"""
-
 from copy import deepcopy
 
 import torch
