@@ -1,5 +1,3 @@
-"""The smoothed focal-style objective in manuscript Section II-D."""
-
 import numpy as np
 import torch
 from torch import nn
