@@ -122,29 +122,3 @@ Evaluation reports the single model's test metrics to the console. Prediction
 saves per-segment probabilities to the specified local CSV. The displayed mean
 segment probabilities are a simple aggregation, not a clinically validated
 patient diagnosis. No pretrained model or saved prediction is shipped.
-
-## Model behavior and scope
-
-The six branches use Morlet, db4, sym4, coif4, Haar, and Mexican Hat templates,
-32/64/128 channels, learned global branch weights, feature refinement, and a
-256-to-128 classifier. Output classes are configurable as 2, 3, or 5.
-
-**Archived initialization behavior is retained intentionally**: the global
-`Conv1d` initializer overwrites the coefficients generated during wavelet setup.
-Scale/shift parameters are stored by the original layer but do not regenerate
-kernels during forward passes. See [implementation notes](docs/IMPLEMENTATION.md).
-This update does not silently repair or reinterpret the archived experiment model.
-
-Comparison models, component-removal variants, template controls, calibration,
-task-specific ensembles, noise-study suites, statistics, and paper figures remain
-outside this public package. The code is the single main-network workflow.
-
-## Software tests
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-Tests create temporary synthetic recordings and arrays, exercise partition leakage
-checks, and validate main-network gradients and checkpoint reload. They do not
-use clinical data or reproduce manuscript experiments.
