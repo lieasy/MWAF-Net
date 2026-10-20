@@ -1,5 +1,3 @@
-"""Download-independent preprocessing and leakage-checked recording splits."""
-
 from collections import Counter, defaultdict
 import csv
 import hashlib
@@ -419,12 +417,7 @@ def prepare(
 
 
 def _validate_prepared_manifest(path, arrays, identifiers, num_classes):
-    """Validate allocation groups and every segment against its source row.
-
-    Hashes establish file identity, not whether an imported allocation is valid.
-    In particular, a duplicate-audio group may contain different subject IDs.
-    Zero-segment recordings remain in the manifest and in the group checks.
-    """
+    
     required = {"recording_id", "subject_id", "group_id", "label", "split", "segments"}
     with (path / "split_manifest.csv").open(encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
