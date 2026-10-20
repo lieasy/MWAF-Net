@@ -221,7 +221,6 @@ def _split_identifiers(data_dir, split):
 
 
 class ModelEMA:
-    """EMA after every optimiser update; integer counters are copied exactly."""
 
     def __init__(self, model, decay=0.99):
         if not 0 <= decay < 1:
@@ -240,12 +239,7 @@ class ModelEMA:
 
 
 class WarmupCosinePlateau:
-    """A persistent plateau multiplier on the scheduled learning rate.
-
-    The next cosine step cannot undo a plateau reduction. The LR is floored
-    at min_learning_rate. Plateau reductions take effect on the next epoch.
-    """
-
+    
     def __init__(self, optimizer, training, mode="max"):
         self.optimizer, self.t, self.mode = optimizer, training, mode
         self.scale, self.stale = 1.0, 0
@@ -422,8 +416,6 @@ def _train_replica(config, arrays, ids, meta, output_dir, seed, device, model_fa
                 loss = criterion(model(batch_x), batch_y)
             if not torch.isfinite(loss):
                 raise FloatingPointError("Nonfinite training loss")
-            # Weight each mini-batch by its actual sample count in this update.
-            # The final partial accumulation window must not be underweighted.
             accum = t["grad_accum_steps"]
             start_batch = (i // accum) * accum
             end_batch = min(start_batch + accum, len(loader))
@@ -481,8 +473,6 @@ def train(config, data_dir, output_dir, seed=42, device="auto", model_factory=No
         raise FileExistsError("Choose a new/empty training output directory")
     device = get_device(device)
     arrays, meta = load_prepared(data_dir, config["task"])
-    # Loading verifies immutable dataset hashes and partition integrity, but no
-    # test predictions or labels enter training, model selection or calibration.
     del arrays["test"]
     if len(arrays["train"][1]) < 2:
         raise ValueError("BatchNorm training requires at least two samples")
