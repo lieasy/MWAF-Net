@@ -1,10 +1,3 @@
-"""Wavelet-family initialization specified by the current manuscript.
-
-For db4, sym4, coif4 and Haar, the historical convention is deliberately retained:
-the first K values of the *scaling function phi*, not the wavelet function psi,
-are used. The nominal scale and shift settings do not resample these families.
-"""
-
 import numpy as np
 import pywt
 import torch
