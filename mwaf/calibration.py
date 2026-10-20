@@ -1,10 +1,3 @@
-"""Patient-grouped, validation-only bounded class-bias selection.
-
-The exact penalised objective and tie convention were not specified in the
-archive. They are explicit public implementation choices documented in
-docs/TRAINING_PROTOCOL.md, not a claim to recover historical calibrations.
-"""
-
 import numpy as np
 from scipy.optimize import minimize
 from scipy.special import softmax
@@ -23,7 +16,6 @@ def _validate_probabilities(probabilities, labels):
 
 
 def class_balanced_nll(probabilities, labels):
-    """Mean of per-class mean NLLs; every task class must be represented."""
     p, y = _validate_probabilities(probabilities, labels)
     counts = np.bincount(y, minlength=p.shape[1])
     if (counts == 0).any():
@@ -33,7 +25,6 @@ def class_balanced_nll(probabilities, labels):
 
 
 def aggregate_recordings(probabilities, labels, recording_ids):
-    """Arithmetic mean of segment probabilities per recording, not logits."""
     p, y = _validate_probabilities(probabilities, labels)
     recording_ids = np.asarray(recording_ids).astype(str)
     if recording_ids.shape != y.shape:
@@ -101,12 +92,6 @@ def _fit_bias(probabilities, labels, recording_ids, unit, penalty, bound):
 def fit_validation_bias(probabilities, labels, patient_ids, recording_ids, *,
                         source_split, unit="segment", folds=3,
                         penalties=(1.0, 0.3, 0.1, 0.03), bound=1.5, seed=42):
-    """Choose no bias or the strongest eligible L2 penalty by the one-SE rule.
-
-    ``source_split`` is mandatory and must be ``val``. The training entry point
-    passes only validation predictions/labels. Group IDs include linked visits
-    and duplicate-audio links from the immutable split manifest.
-    """
     if source_split != "val":
         raise ValueError("Bias fitting and selection are permitted on val only")
     p, y = _validate_probabilities(probabilities, labels)
