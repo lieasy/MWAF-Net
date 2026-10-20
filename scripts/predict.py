@@ -1,5 +1,3 @@
-"""Predict a local WAV with a frozen single-model or ensemble checkpoint."""
-
 import argparse
 import csv
 import json
