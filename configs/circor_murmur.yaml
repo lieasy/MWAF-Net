@@ -1,0 +1,41 @@
+# Shared CirCor baseline/component protocol (Supplement A.2).
+# No strategy here is reserved for MWAF-Net or C5. W1-W5 are separate controls.
+task: circor_murmur
+protocol: circor_shared
+implementation_notes:
+  - "Cross-entropy loss, constant LR, no gradient clipping, and base-seed-plus-index replicas are explicit choices for unspecified implementation details."
+  - "Bias selection uses class-balanced NLL at the checkpoint-selection unit."
+  - "Historical split manifests, checkpoints, and prediction combinations were not recovered."
+training:
+  epochs: 70
+  min_epochs: 25
+  replicas: 2
+  batch_size: 64
+  optimizer: adamw
+  learning_rate: 0.0005
+  weight_decay: 0.001
+  betas: [0.9, 0.999]
+  scheduler: constant
+  warmup_epochs: 0
+  min_learning_rate: 1.0e-6
+  plateau_patience: null
+  grad_accum_steps: 1
+  grad_clip_norm: null
+  mixup_alpha: 0.15
+  mixup_probability: 0.3
+  patience: 18
+  loss: cross_entropy
+  label_smoothing: 0.03
+  class_weighting: none
+  sampling: hierarchical
+  segments_per_recording: 4
+  train_augmentation: false
+  selection: balanced_nll
+  selection_unit: recording
+  ema_decay: 0.99
+  num_workers: 0
+calibration:
+  enabled: true
+  folds: 3
+  penalties: [1.0, 0.3, 0.1, 0.03]
+  bound: 1.5
