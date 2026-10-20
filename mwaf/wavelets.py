@@ -4,13 +4,7 @@ import torch
 
 
 def generate_wavelet_kernel(wavelet_name, kernel_size, scale, shift, device=None, eps=1e-8):
-    """Return normalized initialization coefficients shaped [C_out, C_in, K].
-
-    Morlet and Mexican Hat use the public implementation's sampling grid,
-    ``linspace(-K // 2, K // 2, K)``. Python's floor division gives -4..3 for K=7;
-    this explicit convention preserves the provided template rather than silently
-    introducing a new waveform. Scales and shifts only define initialization.
-    """
+   
     if not isinstance(kernel_size, int) or kernel_size < 1:
         raise ValueError("kernel_size must be a positive integer")
     if eps <= 0:
