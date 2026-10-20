@@ -1,9 +1,3 @@
-"""Recompute per-run metrics, then report mean and sample SD across five runs.
-
-Input files are the JSON outputs from scripts/evaluate.py --output_json. Class
-SDs are never averaged to obtain UAR SD, and test sets are never concatenated.
-"""
-
 import argparse
 import json
 from pathlib import Path
