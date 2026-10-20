@@ -11,15 +11,7 @@ MODEL_CONFIG_VERSION = "mwaf-manuscript-v2"
 
 
 class DropBlock1D(nn.Module):
-    """Channel-shared temporal DropBlock with an optional linear epoch ramp.
-
-    The centre probability is p / K, as specified for a one-dimensional mask.
-    The scheduled probability is a buffer, so checkpoint and EMA state include
-    the active schedule. ``set_epoch`` uses the one-based training epoch; epoch 0
-    disables scheduled DropBlock and epoch 15 reaches the default maximum.
-    A standalone module with ``warmup_epochs=0`` applies its probability directly.
-    """
-
+  
     def __init__(self, drop_prob=0.15, block_size=3, warmup_epochs=0):
         super().__init__()
         if not 0.0 <= drop_prob <= 1.0:
@@ -54,8 +46,6 @@ class DropBlock1D(nn.Module):
             padding=self.block_size // 2,
         )
         keep = 1.0 - dropped
-        # Count in fp32 even under mixed precision, and make a fully masked
-        # mini-batch exactly zero instead of producing 0 * infinity.
         kept = keep.sum(dtype=torch.float32)
         rescale = keep.numel() / (kept + 1e-8)
         rescale = torch.where(kept > 0, rescale, torch.zeros_like(rescale))
@@ -63,7 +53,6 @@ class DropBlock1D(nn.Module):
 
 
 class SqueezeExcitation1D(nn.Module):
-    """SE channel recalibration after the three convolution groups."""
 
     def __init__(self, channels, reduction=4):
         super().__init__()
@@ -81,7 +70,6 @@ class SqueezeExcitation1D(nn.Module):
 
 
 class MinorityClassFeatureEnhancement1D(nn.Module):
-    """MCFE: F + g * ReLU(BN(depthwise Conv7(F)))."""
 
     def __init__(self, channels):
         super().__init__()
@@ -94,12 +82,6 @@ class MinorityClassFeatureEnhancement1D(nn.Module):
 
 
 class MultiScaleWaveletConv1d(nn.Module):
-    """Three wavelet-initialized convolution groups, followed by SE and MCFE.
-
-    Scales (1, 2, 4) and zero shifts are initialization buffers, not forward
-    parameters. Training updates the sampled discrete convolution coefficients.
-    The compactly supported families retain the manuscript's phi[:K] convention.
-    """
 
     def __init__(
         self, in_channels, out_channels, kernel_size, wavelet="morl", stride=1,
@@ -132,7 +114,7 @@ class MultiScaleWaveletConv1d(nn.Module):
         self._init_wavelet_kernels()
 
     def _init_wavelet_kernels(self):
-        """Copy templates without replacing trainable Parameter objects."""
+
         with torch.no_grad():
             for i in (1, 2, 3):
                 conv = getattr(self, f"conv{i}")
@@ -151,12 +133,6 @@ class MultiScaleWaveletConv1d(nn.Module):
 
 
 class CoordAttention1D(nn.Module):
-    """Gated mixture of the two pooled attention projections.
-
-    Both projections follow the manuscript's global temporal pooling. The module
-    consequently returns a channel gate broadcast over time; it does not invent
-    a time-dependent attention map absent from the specified equations.
-    """
 
     def __init__(self, channels, reduction=4):
         super().__init__()
@@ -183,7 +159,6 @@ class CoordAttention1D(nn.Module):
 
 
 class EnhancedWaveletTCNBlock(nn.Module):
-    """Two MSWC layers with the manuscript's intervening 1x1 projection."""
 
     def __init__(
         self, in_channels, out_channels, wavelet="morl", kernel_size=3,
@@ -224,7 +199,6 @@ class EnhancedWaveletTCNBlock(nn.Module):
 
 
 class WaveletBranch(nn.Module):
-    """One of six 64/64/128 branches; output length is 375 for 1500 samples."""
 
     def __init__(
         self, wavelet, in_channels=1, branch_channels=(64, 64, 128),
@@ -257,7 +231,6 @@ class WaveletBranch(nn.Module):
 
 
 class SimplifiedMultiWaveletFusion(nn.Module):
-    """Instance-normalize each branch before the global softmax-weighted sum."""
 
     def __init__(self, num_branches=6, channels=128, attention_reduction=4, dropout=0.3):
         super().__init__()
@@ -285,13 +258,6 @@ class SimplifiedMultiWaveletFusion(nn.Module):
 
 
 class MWAFNet(nn.Module):
-    """Current manuscript topology with reproducible configuration metadata.
-
-    Inputs are preprocessed, Z-normalized [batch, 1, samples] segments. Device
-    placement follows standard PyTorch ``model.to(device)`` / ``input.to(device)``.
-    Call ``set_epoch(epoch + 1)`` at each training epoch to enable the DropBlock
-    ramp. Evaluation disables DropBlock and all ordinary dropout automatically.
-    """
 
     def __init__(
         self, num_classes=2, branch_channels=(64, 64, 128), post_channels=256,
