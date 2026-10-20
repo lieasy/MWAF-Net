@@ -5,11 +5,6 @@ from torch.nn import functional as F
 
 
 def inverse_frequency_alpha(labels, num_classes):
-    """Inverse frequencies with training-sample mean weight equal to one.
-
-    This normalisation is an explicit implementation convention. Frequencies
-    always come from the training partition before replacement sampling.
-    """
     labels = np.asarray(labels, dtype=np.int64)
     counts = np.bincount(labels, minlength=num_classes)
     if len(counts) != num_classes or np.any(counts == 0):
@@ -18,13 +13,6 @@ def inverse_frequency_alpha(labels, num_classes):
 
 
 class FocalLoss(nn.Module):
-    """alpha[y] * (1 - exp(-smoothed_CE))**gamma * smoothed_CE.
-
-    With nonzero smoothing, p_t is the smoothed-label geometric mean rather
-    than the probability of the hard target. This matches the paper's
-    focal-style equation rather than a different standard focal objective.
-    """
-
     def __init__(self, num_classes, gamma=2.5, alpha=None, reduction="mean",
                  label_smoothing=0.2):
         super().__init__()
@@ -55,13 +43,7 @@ class FocalLoss(nn.Module):
 
 
 class SampleMeanCrossEntropy(FocalLoss):
-    """Smoothed CE with optional target-class alpha, averaged over samples.
-
-    Gamma zero removes the focal factor exactly. Target-class weights multiply
-    each complete smoothed CE term; the denominator is sample count, not the
-    sum of weights in a mini-batch. Sample-count accumulation is then exact.
-    """
-
+   
     def __init__(self, num_classes, alpha=None, label_smoothing=0.0):
         super().__init__(num_classes, gamma=0.0, alpha=alpha,
                          label_smoothing=label_smoothing)
