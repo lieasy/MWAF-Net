@@ -1,5 +1,3 @@
-"""Train MWAF-Net using the selected ZCH or shared CirCor protocol."""
-
 import argparse
 from pathlib import Path
 import sys
