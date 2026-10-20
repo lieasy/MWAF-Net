@@ -1,9 +1,3 @@
-"""Manuscript-aligned training, validation selection, and frozen inference.
-
-The CirCor protocol is shared by model factories: nothing in this engine grants
-MWAF-Net or component C5 an extra training or inference strategy.
-"""
-
 import copy
 import csv
 import json
@@ -187,12 +181,7 @@ def evaluate_loader(model, loader, device, criterion=None):
 
 
 def hierarchical_sampling_weights(labels, patient_ids, recording_ids):
-    """P(class) P(patient|class) P(recording|patient,class) P(segment|recording).
-
-    Each conditional distribution is uniform. Unlike inverse segment-frequency
-    weights alone, long files and subjects with many files do not dominate.
-    A subject with distinct labels across visits is balanced within each class.
-    """
+   
     y = np.asarray(labels, dtype=int)
     subjects, recordings = np.asarray(patient_ids).astype(str), np.asarray(recording_ids).astype(str)
     if subjects.shape != y.shape or recordings.shape != y.shape or not len(y):
@@ -290,12 +279,7 @@ class WarmupCosinePlateau:
 
 
 class ProbabilityEnsemble(nn.Module):
-    """Equal replica probability mean, then one frozen segment-wise class bias.
-
-    Forward returns log probabilities, so ordinary ``softmax`` consumers work
-    for both single-model and multi-replica checkpoints without separate paths.
-    """
-
+   
     def __init__(self, models, bias=None):
         super().__init__()
         if not models or len({m.num_classes for m in models}) != 1:
@@ -488,12 +472,7 @@ def _train_replica(config, arrays, ids, meta, output_dir, seed, device, model_fa
 
 
 def train(config, data_dir, output_dir, seed=42, device="auto", model_factory=None):
-    """Train one protocol with MWAF-Net or a supplied comparable model factory.
-
-    A custom factory accepts ``num_classes`` and ``config['model']`` keyword
-    arguments and returns logits. The same protocol code then handles sampling,
-    EMA, checkpoints, replicas and validation-only calibration for that model.
-    """
+   
     config = resolve_config(config)
     t = config["training"]
     _validate_training(t)
