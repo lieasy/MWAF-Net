@@ -1,5 +1,3 @@
-"""Evaluate a frozen single-model or ensemble checkpoint on its test split."""
-
 import argparse
 import json
 from pathlib import Path
