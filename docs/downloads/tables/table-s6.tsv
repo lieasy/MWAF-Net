@@ -1,0 +1,14 @@
+Task	Contrast	n	\DeltaUAR (pp)	Bootstrap 95% CI	p_{\mathrm{Holm}}
+Binary clean	Wavelet diversity (Full)	5	+1.07	[0.39, 1.80]	0.5000
+	Wavelet diversity (Plain)	5	+2.82	[-0.26, 5.45]	0.9375
+	Training configuration (Full - Plain)	5	-0.35	[-2.46, 1.16]	1.0000
+	Branch/capacity (repeat - single)	5	-0.48	[-2.35, 1.07]	1.0000
+Binary noisy	Wavelet diversity (Full)	5	+2.47	[-1.27, 6.17]	0.5625
+	Wavelet diversity (Plain)	5	+4.50	[2.22, 6.77]	0.2500
+	Training configuration (Full - Plain)	5	-2.41	[-4.96, 0.86]	0.5625
+	Branch/capacity (repeat - single)	5	-2.61	[-4.79, -0.27]	0.5625
+Five-class clean	Wavelet diversity (Full)	5	+1.79	[-3.96, 6.96]	1.0000
+	Wavelet diversity (Plain)	5	+0.73	[-3.48, 5.10]	1.0000
+	Training configuration (Full - Plain)	5	-1.12	[-5.25, 2.87]	1.0000
+	Branch/capacity (repeat - single)	5	-3.71	[-8.47, 1.05]	1.0000
+

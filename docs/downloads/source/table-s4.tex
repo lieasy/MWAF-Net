@@ -1,0 +1,45 @@
+\begin{table}[H]
+\centering\color{black}
+\caption{Complete ZCHSound component ablations. C1--C4 follow main Table VI; C5 is the complete MWAF-Net. Highest and second-highest means are marked within each task and metric.}\label{tab:supp_components}
+\label{tab:supp_original_ablation_binary}
+\label{tab:supp_original_ablation_five}
+\paneltitle{(a) High-quality ZCHSound: binary}
+\begingroup
+\fontsize{8.5}{10}\selectfont
+\setlength{\tabcolsep}{6pt}\renewcommand{\arraystretch}{1.04}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}\toprule
+\textbf{Model} & \textbf{Se} & \textbf{Sp} & \textbf{Pr} & \textbf{F1} & \textbf{Acc} & \textbf{UAR}\\\midrule
+C1 & \underline{84.05$\pm$2.11} & \textbf{92.19$\pm$6.52} & \underline{89.07$\pm$5.83} & \underline{86.46$\pm$3.93} & \underline{88.68$\pm$1.74} & \underline{88.12$\pm$2.21}\\
+C2 & 81.43$\pm$2.05 & 86.93$\pm$2.36 & 82.51$\pm$7.14 & 81.92$\pm$4.66 & 84.56$\pm$2.17 & 84.18$\pm$2.21\\
+C3 & 78.05$\pm$2.28 & 86.36$\pm$2.64 & 81.25$\pm$7.86 & 79.56$\pm$5.08 & 82.78$\pm$2.35 & 82.21$\pm$2.41\\
+C4 & \underline{84.05$\pm$1.79} & \textbf{92.19$\pm$2.47} & \underline{89.07$\pm$6.93} & \underline{86.44$\pm$4.32} & \underline{88.68$\pm$4.37} & \underline{88.12$\pm$1.96}\\
+C5 (MWAF-Net) & \textbf{88.37$\pm$3.87} & \underline{91.90$\pm$4.88} & \textbf{89.59$\pm$5.74} & \textbf{88.84$\pm$2.96} & \textbf{90.38$\pm$2.72} & \textbf{90.14$\pm$2.56}\\
+\bottomrule\end{tabular*}
+\endgroup
+\paneltitle{(b) Low-quality ZCHSound: binary}
+\begingroup
+\fontsize{8.5}{10}\selectfont
+\setlength{\tabcolsep}{6pt}\renewcommand{\arraystretch}{1.04}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}\toprule
+\textbf{Model} & \textbf{Se} & \textbf{Sp} & \textbf{Pr} & \textbf{F1} & \textbf{Acc} & \textbf{UAR}\\\midrule
+C1 & \underline{66.59$\pm$1.88} & 51.72$\pm$4.89 & \underline{65.31$\pm$9.82} & \underline{65.77$\pm$5.91} & \underline{60.93$\pm$2.19} & 59.16$\pm$3.38\\
+C2 & 46.12$\pm$1.76 & 58.37$\pm$4.78 & 53.77$\pm$9.55 & 49.49$\pm$5.27 & 52.10$\pm$2.08 & 52.25$\pm$3.27\\
+C3 & \textbf{83.62$\pm$5.65} & 28.96$\pm$10.72 & 55.27$\pm$13.18 & \textbf{66.25$\pm$11.49} & 56.95$\pm$3.55 & 56.29$\pm$4.05\\
+C4 & 44.40$\pm$1.85 & \underline{74.21$\pm$5.06} & 64.38$\pm$9.98 & 52.45$\pm$4.73 & 58.94$\pm$2.21 & \underline{59.30$\pm$3.46}\\
+C5 (MWAF-Net) & 52.02$\pm$5.18 & \textbf{74.89$\pm$10.24} & \textbf{66.92$\pm$9.99} & 58.31$\pm$5.98 & \textbf{63.81$\pm$6.30} & \textbf{63.46$\pm$6.20}\\
+\bottomrule\end{tabular*}
+\endgroup
+\paneltitle{(c) High-quality ZCHSound: five-class}
+\begingroup
+\fontsize{8.5}{10}\selectfont
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.04}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccccc@{}}\toprule
+\textbf{Model} & \textbf{N} & \textbf{ASD} & \textbf{PDA} & \textbf{PFO} & \textbf{VSD} & \textbf{Acc} & \textbf{UAR}\\\midrule
+C1 & 70.31$\pm$2.21 & \textbf{49.36$\pm$3.42} & \underline{2.56$\pm$1.13} & \underline{59.34$\pm$2.87} & \underline{85.02$\pm$1.96} & 67.66$\pm$2.08 & 53.32$\pm$2.20\\
+C2 & 84.23$\pm$1.85 & 35.26$\pm$2.74 & 0.00$\pm$0.00 & \textbf{78.02$\pm$2.16} & \textbf{89.07$\pm$1.43} & \textbf{75.91$\pm$2.15} & \underline{57.32$\pm$1.24}\\
+C3 & \underline{85.94$\pm$2.03} & 17.31$\pm$3.16 & \underline{2.56$\pm$1.27} & 38.46$\pm$3.32 & 79.35$\pm$2.41 & 69.85$\pm$3.62 & 44.72$\pm$2.01\\
+C4 & 84.23$\pm$1.92 & 35.26$\pm$2.81 & 0.00$\pm$0.00 & \textbf{78.02$\pm$2.24} & \textbf{89.07$\pm$1.51} & \textbf{75.91$\pm$2.28} & \underline{57.32$\pm$1.53}\\
+C5 (MWAF-Net) & \textbf{91.28$\pm$1.61} & \underline{41.07$\pm$14.80} & \textbf{53.85$\pm$7.08} & 31.87$\pm$10.48 & 69.23$\pm$7.46 & \underline{74.76$\pm$6.73} & \textbf{57.46$\pm$5.58}\\
+\bottomrule\end{tabular*}
+\endgroup
+\end{table}

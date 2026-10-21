@@ -1,0 +1,41 @@
+\begin{table}[H]
+\centering\color{black}
+\caption{Five-class classification under noise-augmented training: UAR across the four perturbation categories.}\label{tab:supp_all_models_multiclass}
+\begingroup
+\fontsize{8.0}{9.2}\selectfont
+\setlength{\tabcolsep}{1.4pt}\renewcommand{\arraystretch}{1.0}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccccccc@{}}\toprule
+\textbf{Model} & \textbf{Clean} & \textbf{White} & \textbf{Pink} & \textbf{Babble} & \textbf{Motion} & \textbf{Overall} & \textbf{$\Delta$UAR} & \textbf{Rank}\\\midrule
+Vgg11 & 42.11$\pm$3.77 & 38.58$\pm$3.66 & 38.65$\pm$3.89 & 38.83$\pm$3.00 & 41.66$\pm$3.76 & 39.43$\pm$3.46 & \textbf{2.68$\pm$0.38} & 17\\
+Vgg16 & 44.47$\pm$3.73 & 39.01$\pm$4.22 & 39.36$\pm$4.93 & 38.96$\pm$3.86 & 43.33$\pm$3.64 & 40.16$\pm$4.12 & 4.31$\pm$0.51 & 13\\
+Vgg19 & 42.03$\pm$2.62 & 37.73$\pm$2.18 & 37.85$\pm$2.20 & 38.37$\pm$2.04 & 41.30$\pm$2.63 & 38.81$\pm$2.22 & 3.22$\pm$0.51 & 19\\
+Resnet18 & 44.99$\pm$5.76 & 39.87$\pm$4.70 & 40.77$\pm$4.90 & 40.25$\pm$4.86 & 44.25$\pm$5.48 & 41.28$\pm$4.93 & 3.70$\pm$0.94 & 8\\
+Resnet34 & 44.08$\pm$4.77 & 39.09$\pm$5.72 & 40.18$\pm$5.31 & 40.23$\pm$5.38 & 43.77$\pm$5.35 & 40.82$\pm$5.39 & 3.26$\pm$1.46 & 11\\
+Googlenet & 44.80$\pm$2.62 & 39.82$\pm$1.89 & 40.58$\pm$2.37 & 40.03$\pm$2.23 & 44.19$\pm$2.77 & 41.15$\pm$2.16 & 3.64$\pm$1.31 & 9\\
+\midrule
+Shufflenetv1 & 43.67$\pm$4.16 & 38.79$\pm$3.78 & 38.76$\pm$4.26 & 38.62$\pm$4.05 & 42.79$\pm$4.24 & 39.74$\pm$4.06 & 3.93$\pm$0.57 & 16\\
+Shufflenetv2 & 42.23$\pm$5.32 & 38.30$\pm$4.57 & 39.14$\pm$4.91 & 38.21$\pm$4.81 & 42.06$\pm$5.59 & 39.43$\pm$4.93 & 2.80$\pm$0.86 & 17\\
+Mobilenetv1 & 44.04$\pm$4.39 & 39.42$\pm$3.78 & 38.94$\pm$4.03 & 39.02$\pm$4.47 & 43.02$\pm$4.37 & 40.10$\pm$4.05 & 3.94$\pm$1.46 & 14\\
+Mobilenetv2 & \underline{46.67$\pm$4.42} & \underline{41.64$\pm$4.06} & \underline{41.91$\pm$4.29} & \underline{41.79$\pm$3.60} & \textbf{46.28$\pm$4.57} & \textbf{42.90$\pm$4.12} & 3.76$\pm$1.25 & 1\\
+\midrule
+2DCNN~\cite{2DCNN} & 39.01$\pm$4.19 & 32.59$\pm$2.28 & 33.07$\pm$2.57 & 33.87$\pm$2.93 & 36.90$\pm$3.21 & 34.11$\pm$2.10 & 4.90$\pm$2.43 & 25\\
+Cardi-Net~\cite{Cardi-Net} & 44.62$\pm$3.96 & 36.34$\pm$3.56 & 37.71$\pm$4.44 & 35.89$\pm$4.94 & 43.51$\pm$3.35 & 38.36$\pm$3.87 & 6.25$\pm$2.50 & 20\\
+DS-CNN~\cite{DS-CNN} & 46.56$\pm$6.71 & 38.44$\pm$6.45 & 39.50$\pm$6.94 & 39.69$\pm$6.47 & 46.13$\pm$6.59 & 40.94$\pm$6.58 & 5.62$\pm$1.29 & 10\\
+MACNN~\cite{chen2021multi} & 39.32$\pm$2.68 & 33.66$\pm$3.30 & 32.98$\pm$2.66 & 32.53$\pm$2.52 & 39.00$\pm$2.50 & 34.54$\pm$2.71 & 4.78$\pm$1.55 & 24\\
+NRC-Net~\cite{NRC-Net} & 37.99$\pm$3.46 & 33.87$\pm$2.13 & 33.89$\pm$2.74 & 34.09$\pm$2.14 & 37.23$\pm$3.32 & 34.77$\pm$2.51 & 3.22$\pm$1.21 & 23\\
+Paramps~\cite{Paramps} & 42.50$\pm$2.91 & 35.72$\pm$3.38 & 35.83$\pm$2.53 & 35.47$\pm$2.99 & 41.84$\pm$2.69 & 37.22$\pm$2.84 & 5.28$\pm$0.68 & 21\\
+SE-Net~\cite{SE-Net} & 45.09$\pm$4.78 & 40.34$\pm$5.31 & 40.73$\pm$6.36 & 40.44$\pm$5.91 & 44.34$\pm$4.90 & 41.46$\pm$5.53 & 3.63$\pm$1.57 & 6\\
+WCFormer~\cite{WCFormer} & 40.47$\pm$4.43 & 33.21$\pm$3.91 & 34.27$\pm$4.31 & 33.03$\pm$3.51 & 39.59$\pm$3.68 & 35.02$\pm$3.78 & 5.45$\pm$1.11 & 22\\
+\midrule
+WTCN-Coif4 & 44.92$\pm$4.72 & 40.32$\pm$2.91 & 40.31$\pm$3.10 & 40.43$\pm$2.98 & 44.36$\pm$3.95 & 41.36$\pm$3.21 & 3.56$\pm$1.73 & 7\\
+WTCN-Db4 & 43.62$\pm$3.78 & 39.35$\pm$2.76 & 39.90$\pm$3.30 & 39.63$\pm$3.07 & 42.99$\pm$3.47 & 40.46$\pm$3.09 & 3.15$\pm$0.89 & 12\\
+WTCN-Haar & 45.52$\pm$3.48 & \textbf{41.71$\pm$4.13} & \textbf{41.97$\pm$3.67} & \textbf{42.12$\pm$4.14} & 45.24$\pm$3.68 & \underline{42.76$\pm$3.87} & \underline{2.76$\pm$1.39} & 2\\
+WTCN-Mexh & 43.23$\pm$3.86 & 38.98$\pm$4.09 & 38.80$\pm$3.79 & 39.41$\pm$3.83 & 42.46$\pm$3.54 & 39.91$\pm$3.76 & 3.32$\pm$0.76 & 15\\
+WTCN-Morl & 45.23$\pm$5.23 & 40.81$\pm$4.26 & 40.90$\pm$4.90 & 40.69$\pm$4.25 & 44.36$\pm$4.71 & 41.69$\pm$4.50 & 3.54$\pm$1.14 & 5\\
+WTCN-Sym4 & 45.09$\pm$2.61 & 41.49$\pm$2.09 & 41.63$\pm$2.35 & 41.09$\pm$2.23 & 44.89$\pm$2.82 & 42.27$\pm$2.30 & 2.82$\pm$0.83 & 4\\
+\midrule
+MWAF-Net & \textbf{46.82$\pm$5.45} & 40.77$\pm$4.05 & 41.74$\pm$4.61 & 41.29$\pm$3.95 & \underline{46.16$\pm$5.09} & 42.49$\pm$4.23 & 4.33$\pm$2.34 & 3\\
+\bottomrule\end{tabular*}
+\endgroup
+\tabnote{Noise conditions, aggregation, rank direction, and column markings follow Table~\ref{tab:supp_all_models_binary}.}
+\end{table}

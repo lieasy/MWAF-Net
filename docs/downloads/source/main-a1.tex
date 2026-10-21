@@ -1,0 +1,20 @@
+\begin{algorithm}[ht]
+\caption{Forward workflow of MWAF-Net}
+\label{alg:mwaf}
+\begin{algorithmic}[1]
+\REQUIRE \re{Preprocessed PCG segment $x_{\text{norm}}\in\mathbb{R}^{1\times L}$; wavelet set $\mathcal{W}=\{\text{morl},\text{db4},\text{sym4},\text{coif4},\text{Haar},\text{mexh}\}$; current model parameters}
+\ENSURE Class logits $\hat{y}$
+\FOR{each wavelet template $b\in\mathcal{W}$}
+    \STATE \re{Apply input MSWC, BN, ReLU, max pooling, and dropout.}
+    \STATE \re{Extract features with two EW-TCN blocks; apply dropout and branch attention.}
+    \STATE \re{Obtain $F_b\in\mathbb{R}^{B\times128\times375}$ and apply branch-wise instance normalisation.}
+\ENDFOR
+\STATE Compute softmax-normalised global branch weights $\alpha_b$.
+\STATE Fuse wavelet-specific features by $F_{\text{fused}}=\sum_b\alpha_bF_{b,\text{norm}}$.
+\STATE \re{Apply fusion convolution, BN, ReLU, GCA, and dropout.}
+\STATE \re{Apply a post-fusion EW-TCN block to obtain 256-channel features.}
+\STATE Apply global pooling and the classifier head to obtain $\hat{y}$.
+\RETURN $\hat{y}$.
+\end{algorithmic}
+\par\smallskip{\footnotesize \re{Abbreviations: PCG, phonocardiogram; MSWC, multi-scale wavelet convolution; EW-TCN, enhanced wavelet temporal convolutional network; GCA, gated coordinate attention. \re{BN, batch normalisation; ReLU, rectified linear unit; $B$, batch size.} Wavelet labels: morl, Morlet; db4, Daubechies 4; sym4, Symlet 4; coif4, Coiflet 4; mexh, Mexican Hat.}}
+\end{algorithm}

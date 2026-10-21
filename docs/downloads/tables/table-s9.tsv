@@ -1,0 +1,16 @@
+(a) Binary classification
+Noise type	0 dB	5 dB	10 dB	15 dB	20 dB
+White	73.96\pm3.67	77.36\pm2.29	80.66\pm3.00	83.09\pm3.42	83.53\pm3.63
+Pink	73.53\pm4.79	78.21\pm3.37	81.43\pm3.27	83.69\pm3.45	84.05\pm3.41
+Babble	76.14\pm3.16	79.19\pm2.68	81.47\pm2.71	82.63\pm3.19	83.59\pm3.31
+Motion	82.62\pm2.82	83.70\pm3.35	84.17\pm3.48	84.13\pm3.80	84.11\pm3.57
+Average	76.56\pm3.37	79.61\pm2.83	81.93\pm3.02	83.39\pm3.41	83.82\pm3.47
+
+(b) Five-class classification
+Noise type	0 dB	5 dB	10 dB	15 dB	20 dB
+White	32.03\pm6.60	39.24\pm4.95	42.34\pm4.60	44.60\pm4.78	45.60\pm5.32
+Pink	33.91\pm4.37	40.69\pm5.75	42.73\pm5.74	44.86\pm5.01	46.48\pm5.26
+Babble	35.38\pm4.89	40.03\pm5.00	41.94\pm4.47	44.12\pm4.27	44.96\pm4.86
+Motion	44.79\pm5.40	45.66\pm4.89	46.44\pm5.11	47.13\pm5.33	46.77\pm4.85
+Average	36.53\pm4.02	41.41\pm4.69	43.36\pm4.81	45.18\pm4.83	45.96\pm5.06
+

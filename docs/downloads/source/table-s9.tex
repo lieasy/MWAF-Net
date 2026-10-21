@@ -1,0 +1,32 @@
+\begin{table}[H]
+\centering\color{black}
+\caption{MWAF-Net grid: UAR under four noise types and five SNRs.}\label{tab:supp_noise_grid}
+\paneltitle{(a) Binary classification}
+\begingroup
+\fontsize{9}{10.5}\selectfont
+\setlength{\tabcolsep}{7pt}\renewcommand{\arraystretch}{1.13}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccc@{}}\toprule
+\textbf{Noise type} & \textbf{0 dB} & \textbf{5 dB} & \textbf{10 dB} & \textbf{15 dB} & \textbf{20 dB}\\\midrule
+White & 73.96$\pm$3.67 & 77.36$\pm$2.29 & 80.66$\pm$3.00 & 83.09$\pm$3.42 & 83.53$\pm$3.63\\
+Pink & 73.53$\pm$4.79 & 78.21$\pm$3.37 & 81.43$\pm$3.27 & \underline{83.69$\pm$3.45} & \underline{84.05$\pm$3.41}\\
+Babble & \underline{76.14$\pm$3.16} & \underline{79.19$\pm$2.68} & \underline{81.47$\pm$2.71} & 82.63$\pm$3.19 & 83.59$\pm$3.31\\
+Motion & \textbf{82.62$\pm$2.82} & \textbf{83.70$\pm$3.35} & \textbf{84.17$\pm$3.48} & \textbf{84.13$\pm$3.80} & \textbf{84.11$\pm$3.57}\\
+Average & 76.56$\pm$3.37 & 79.61$\pm$2.83 & 81.93$\pm$3.02 & 83.39$\pm$3.41 & 83.82$\pm$3.47\\
+\bottomrule\end{tabular*}
+\endgroup
+\paneltitle{(b) Five-class classification}
+\begingroup
+\fontsize{9}{10.5}\selectfont
+\setlength{\tabcolsep}{7pt}\renewcommand{\arraystretch}{1.13}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccccc@{}}\toprule
+\textbf{Noise type} & \textbf{0 dB} & \textbf{5 dB} & \textbf{10 dB} & \textbf{15 dB} & \textbf{20 dB}\\\midrule
+White & 32.03$\pm$6.60 & 39.24$\pm$4.95 & 42.34$\pm$4.60 & 44.60$\pm$4.78 & 45.60$\pm$5.32\\
+Pink & 33.91$\pm$4.37 & \underline{40.69$\pm$5.75} & \underline{42.73$\pm$5.74} & \underline{44.86$\pm$5.01} & \underline{46.48$\pm$5.26}\\
+Babble & \underline{35.38$\pm$4.89} & 40.03$\pm$5.00 & 41.94$\pm$4.47 & 44.12$\pm$4.27 & 44.96$\pm$4.86\\
+Motion & \textbf{44.79$\pm$5.40} & \textbf{45.66$\pm$4.89} & \textbf{46.44$\pm$5.11} & \textbf{47.13$\pm$5.33} & \textbf{46.77$\pm$4.85}\\
+Average & 36.53$\pm$4.02 & 41.41$\pm$4.69 & 43.36$\pm$4.81 & 45.18$\pm$4.83 & 45.96$\pm$5.06\\
+\bottomrule\end{tabular*}
+\endgroup
+
+\tabnote{Noise is added before segment-wise normalisation. Average first averages the four noise types within each seed, then reports mean and SD across seeds. Within each SNR, bold/underlining identify the highest/second-highest UAR among the four perturbations; Average is excluded from ranking. The markings describe sensitivity to these conditions, not comparisons between architectures.}
+\end{table}

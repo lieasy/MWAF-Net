@@ -1,0 +1,36 @@
+\begin{minipage}[t]{0.48\linewidth}\vspace{0pt}\centering
+\captionsetup{type=table}
+\centering\color{black}
+\caption{Parameters, storage, and FLOPs per 1.5-s segment. Lower costs are preferable.}\label{tab:supp_resource}
+\begingroup
+\fontsize{8.5}{10.2}\selectfont
+\setlength{\tabcolsep}{1.3pt}\renewcommand{\arraystretch}{1.01}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc@{}}\toprule
+\textbf{Model} & \textbf{Params (M)} & \textbf{Size (MB)} & \textbf{FLOPs (M)}\\\midrule
+Vgg11 & 53.417 & 203.77 & 549.20\\
+Vgg16 & 55.253 & 210.77 & 900.15\\
+Vgg19 & 57.026 & 217.54 & 1195.04\\
+Resnet18 & 3.845 & 14.67 & 257.99\\
+Resnet34 & 7.219 & 27.54 & 527.48\\
+Googlenet & 3.430 & 13.09 & 288.24\\
+\midrule
+Shufflenetv1 & \underline{0.296} & \underline{1.13} & \underline{21.46}\\
+Shufflenetv2 & 1.240 & 4.73 & 79.04\\
+Mobilenetv1 & 3.178 & 12.13 & 244.94\\
+Mobilenetv2 & 2.183 & 8.33 & 142.29\\
+\midrule
+2DCNN~\cite{2DCNN} & 0.587 & 2.24 & 1279.06\\
+Cardi-Net~\cite{Cardi-Net} & 9.711 & 37.05 & 370.45\\
+DS-CNN~\cite{DS-CNN} & 50.423 & 192.35 & 1690.57\\
+MACNN~\cite{chen2021multi} & 6.178 & 23.57 & 397.13\\
+NRC-Net~\cite{NRC-Net} & 3.317 & 12.65 & 153.51\\
+Paramps~\cite{Paramps} & \textbf{0.092} & \textbf{0.35} & \textbf{1.55}\\
+SE-Net~\cite{SE-Net} & 2.750 & 10.49 & 517.73\\
+WCFormer~\cite{WCFormer} & 2.657 & 10.14 & 236.79\\
+\midrule
+WTCN & 4.825 & 18.41 & 837.46\\
+MWAF-Net & 1.683 & 6.42 & 381.76\\
+\bottomrule\end{tabular*}
+\endgroup
+\tabnote{These resource values describe one MWAF-Net backbone shared by the ZCHSound and CirCor experiments. The CirCor prediction protocol averages two independently trained instances of this same architecture, so its ensemble-level storage and FLOP costs are approximately twice the single-backbone values; the task-specific output layer contributes only a negligible difference. The six WTCN variants share the reported WTCN topology. Params: parameters in millions; Size: model storage; FLOPs: floating-point operations in millions. These costs do not measure device latency or energy.}
+\end{minipage}

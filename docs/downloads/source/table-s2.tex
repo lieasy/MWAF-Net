@@ -1,0 +1,43 @@
+\begin{minipage}[t]{0.50\linewidth}\vspace{0pt}\centering
+\captionsetup{type=table}
+\centering\color{black}
+\caption{Additional CirCor Outcome precision and F1-score. Abnormal is the positive class.}\label{tab:circor_binary_segment}
+\begingroup
+\fontsize{8.5}{10.2}\selectfont
+\setlength{\tabcolsep}{2pt}\renewcommand{\arraystretch}{1.01}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcc@{}}\toprule
+\textbf{Model} & \textbf{Pr} & \textbf{F1}\\\midrule
+Vgg11 & 64.94$\pm$5.57 & 44.60$\pm$3.57\\
+Vgg16 & \underline{68.03$\pm$5.99} & 43.42$\pm$2.74\\
+Vgg19 & 67.05$\pm$7.81 & 44.35$\pm$6.28\\
+Resnet18 & 65.23$\pm$7.90 & 45.67$\pm$9.07\\
+Resnet34 & 59.77$\pm$1.99 & 50.04$\pm$5.58\\
+Googlenet & 63.44$\pm$7.22 & 45.99$\pm$7.70\\
+\midrule
+Shufflenetv1 & 61.92$\pm$5.56 & 50.59$\pm$3.48\\
+Shufflenetv2 & 61.05$\pm$3.95 & \underline{51.13$\pm$5.54}\\
+Mobilenetv1 & 61.52$\pm$4.94 & \textbf{51.22$\pm$5.70}\\
+Mobilenetv2 & 64.55$\pm$7.97 & 46.73$\pm$6.62\\
+\midrule
+2DCNN~\cite{2DCNN} & 60.00$\pm$8.12 & 47.73$\pm$3.79\\
+Cardi-Net~\cite{Cardi-Net} & 56.06$\pm$3.29 & 37.96$\pm$5.43\\
+DS-CNN~\cite{DS-CNN} & \textbf{69.69$\pm$6.67} & 43.69$\pm$5.24\\
+MACNN~\cite{chen2021multi} & 56.43$\pm$4.47 & 36.45$\pm$4.75\\
+NRC-Net~\cite{NRC-Net} & 67.77$\pm$8.18 & 45.03$\pm$3.42\\
+Paramps~\cite{Paramps} & 58.42$\pm$2.60 & 43.19$\pm$2.53\\
+SE-Net~\cite{SE-Net} & 64.40$\pm$5.13 & 44.89$\pm$9.12\\
+WCFormer~\cite{WCFormer} & 59.60$\pm$3.05 & 39.45$\pm$8.31\\
+\midrule
+WTCN-Coif4 & 63.38$\pm$5.79 & 47.83$\pm$8.96\\
+WTCN-Db4 & 64.81$\pm$2.95 & 48.32$\pm$9.19\\
+WTCN-Haar & 66.25$\pm$3.02 & 43.67$\pm$8.60\\
+WTCN-Mexh & 65.82$\pm$6.39 & 46.41$\pm$10.13\\
+WTCN-Morl & 66.07$\pm$4.59 & 48.39$\pm$4.86\\
+WTCN-Sym4 & 67.78$\pm$2.96 & 44.45$\pm$6.61\\
+\midrule
+MWAF-Net & 66.29$\pm$3.86 & 50.27$\pm$4.08\\
+\bottomrule\end{tabular*}
+\endgroup
+\tabnote{Se, Sp, Acc, and UAR are in main Table V.}
+
+\end{minipage}
